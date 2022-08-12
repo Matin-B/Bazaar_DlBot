@@ -1,2 +1,2 @@
-# bazaar_dlbot
-Telegram Bot for download cafebazaar.ir apps
+# Bazaar_DlBot
+Simple Telegram bot for direct download applications from Cafe Bazaar (CafeBazaar.ir)
