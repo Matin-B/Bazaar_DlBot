@@ -1,12 +1,22 @@
-from aiogram import Bot, Dispatcher, executor, filters, types
-from aiogram.utils.emoji import emojize
-from pdb import set_trace
-import config
-from downloader import download
+import logging
 
-# Initialize bot and dispatcher
-bot = Bot(token=config.BOT_TOKEN)
-dp = Dispatcher(bot)
+from aiogram import Bot, Dispatcher, executor, filters, types
+from aiogram.types import ParseMode
+from bazaar_dl import download
+from emoji import emojize
+
+import config
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
+
+bot = Bot(
+    token=config.BOT_TOKEN,
+    parse_mode=ParseMode.HTML,
+)
+
+dp = Dispatcher(bot=bot)
 
 
 def convert_bytes(size):
@@ -25,14 +35,13 @@ async def start_command(message: types.Message):
             'Welcome to @bazaar_dlbot :raised_hand:\n\n'\
             ':check_mark_button: Please send me the app link in CafeBazaar.ir.\n\n\n'
             ':information: Source code is available on '\
-            '[GitHub](https://github.com/Matin-B/bazaar_dlbot)'
+            '<a href="https://github.com/Matin-B/bazaar_dlbot">GitHub</a>'
         )
     )
 
 
 @dp.message_handler(filters.Regexp(regexp=r'cafebazaar\.ir\/app\/(.*)'))
 async def download_app(message: types.Message, regexp):
-    chat_id = message.chat.id
     package_name = regexp.group(1)
     download_response = download(package_name)
     if download_response['status'] == 'success':
@@ -54,6 +63,5 @@ async def download_app(message: types.Message, regexp):
         )
 
 
-# Run bot
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
