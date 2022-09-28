@@ -1,8 +1,8 @@
 kind: ExternalService
-name: bazaar_dlbot
+name: bazaardlbot
 spec:
   allow_http: true
-  image: 'bazaar_dlbot:v1.0.0'
+  image: 'bazaardlbot:v1.0.0'
   image_pull_policy: IfNotPresent
   path: /
   port: 80
